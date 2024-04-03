@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Button, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
@@ -35,7 +35,16 @@ const LoginForm = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto' }}>
+    <Box
+      sx={{
+        maxWidth: '400px',
+        margin: 'auto',
+        backgroundColor: '#f5f5f5',
+        padding: '20px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px',
+      }}
+    >
       <Typography variant="h4" align="center" gutterBottom>
         Log In
       </Typography>
@@ -46,30 +55,40 @@ const LoginForm = () => {
       >
         {({ errors, touched }) => (
           <Form>
-            <Field
-              as={TextField}
-              name="email"
-              label="Email"
+            <Box mb={2}>
+              <Field
+                as={TextField}
+                name="email"
+                label="Email"
+                fullWidth
+                error={errors.email && touched.email}
+                helperText={errors.email && touched.email ? errors.email : ''}
+              />
+            </Box>
+            <Box mb={2}>
+              <Field
+                as={TextField}
+                name="password"
+                label="Password"
+                type="password"
+                fullWidth
+                error={errors.password && touched.password}
+                helperText={errors.password && touched.password ? errors.password : ''}
+              />
+            </Box>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
               fullWidth
-              error={errors.email && touched.email}
-              helperText={errors.email && touched.email ? errors.email : ''}
-            />
-            <Field
-              as={TextField}
-              name="password"
-              label="Password"
-              type="password"
-              fullWidth
-              error={errors.password && touched.password}
-              helperText={errors.password && touched.password ? errors.password : ''}
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }}>
+              sx={{ borderRadius: '20px', marginTop: '20px' }}
+            >
               Log In
             </Button>
           </Form>
         )}
       </Formik>
-    </div>
+    </Box>
   );
 };
 
