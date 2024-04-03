@@ -2,10 +2,10 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, Typography } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const initialValues = {
     email: '',
@@ -17,20 +17,20 @@ const LoginForm = () => {
     password: Yup.string().required('Password is required'),
   });
 
-  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
-    try {
-      // Simulate login process with delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Redirect to dashboard page after successful login
-      history.push('/dashboard', { email: values.email });
-      
-      // Reset form fields and set submitting state
+  const handleSubmit = (values, { resetForm }) => {
+    // Retrieve user data from local storage
+    const storedData = JSON.parse(localStorage.getItem('formData')) || [];
+    const user = storedData.find(user => user.email === values.email && user.password === values.password);
+
+    if (user) {
+      // Set 'dash' in local storage
+      localStorage.setItem('dash', JSON.stringify({ name:user.name, email: user.email }));
+
+      // Navigate to dashboard page
+      navigate('/dashboard');
+    } else {
+      alert('Invalid email or password');
       resetForm();
-      setSubmitting(false);
-    } catch (error) {
-      console.error('Login error:', error);
-      // Handle login error, e.g., display error message
     }
   };
 
@@ -44,7 +44,7 @@ const LoginForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched }) => (
           <Form>
             <Field
               as={TextField}
@@ -63,8 +63,8 @@ const LoginForm = () => {
               error={errors.password && touched.password}
               helperText={errors.password && touched.password ? errors.password : ''}
             />
-            <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }} disabled={isSubmitting}>
-              {isSubmitting ? 'Logging in...' : 'Log In'}
+            <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }}>
+              Log In
             </Button>
           </Form>
         )}

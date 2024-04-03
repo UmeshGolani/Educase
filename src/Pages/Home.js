@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const Homepage = () => {
+const Home = () => {
   return (
     <div style={{ maxWidth: '400px', margin: 'auto', textAlign: 'center' }}>
       <Typography variant="h4" gutterBottom>
@@ -23,4 +23,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Home;

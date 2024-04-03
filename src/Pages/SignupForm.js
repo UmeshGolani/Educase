@@ -11,7 +11,7 @@ const SignupForm = () => {
     email: '',
     password: '',
     companyName: '',
-    isAgency: '',
+    isAgency: '', // Updated: changed from boolean to string
   };
 
   const validationSchema = Yup.object().shape({
@@ -22,7 +22,7 @@ const SignupForm = () => {
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
     companyName: Yup.string().required('Company Name is required'),
-    isAgency: Yup.string().required('Please select an option'),
+    isAgency: Yup.string(), // Updated: changed from boolean to string
   });
 
   const handleSubmit = (values, { resetForm }) => {
